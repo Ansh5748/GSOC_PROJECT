@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>College Registeration</title>
+    <link rel="stylesheet" href="../CSS Files/signup.css">
+</head>
+<body>
+    <div class="overlay"></div>
+    <div class="bubbles">
+        <div class="bubble"></div>
+         <div class="bubble"></div>
+          <div class="bubble"></div>
+           <div class="bubble"></div>
+            <div class="bubble"></div>
+         </div>
+    <form id="collegeForm">
+        <h1>College Registration</h1>
+        <input type="text" id="fullname" placeholder="Enter Full Name" name="fullname" required>
+        <input type="email" id="email" placeholder="Enter Your Gmail ID" name="email" required>
+        <input type="text" id="username" placeholder="Enter Username" name="username" required>
+        <input type="password" id="password" placeholder="Enter Password" name="password" required>
+        <input type="password" id="confirmpassword" placeholder="Confirm Password" name="confirmpassword" required>
+        <div class="button-group">
+            <input type="button" value="Sign Up" onclick="submitForm()">
+            <input type="button" value="Login" onclick="redirectToLogin()">
+        </div>
+    </form>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+    <script>
+        function submitForm(){
+            const fullname=document.getElementById('fullname').value;
+            const email=document.getElementById('email').value;
+            const username=document.getElementById('username').value;
+            const password=document.getElementById('password').value;
+            const confirmpassword=document.getElementById('confirmpassword').value;
+            if(fullname && email && username && password && confirmpassword){
+                if(password===confirmpassword){
+                    const users=JSON.parse(localStorage.getItem('users')) || [];
+                    const userExists=users.some(user=>user.username===username);
+                    const emailExists=users.some(user=>user.email===email);
+                    if(userExists){
+                        alert("Username already exists!");
+                        return;
+                    }
+                    if(emailExists){
+                        alert("Email already exists!");
+                        return;
+                    }
+                    const encryptedPassword=CryptoJS.AES.encrypt(password,'secret_key').toString();
+                    users.push({fullname,email,username,password:encryptedPassword});
+                    localStorage.setItem('users',JSON.stringify(users));
+                    alert("Form submitted successfully! Here’s what you entered:\nFull Name: " + fullname + "\nEmail: " + email + "\nUsername: " + username);
+                    window.location.href='index.html';
+                }
+                else{
+                    alert("Passwords do not match!");
+                }
+            } 
+            else{
+                alert("Please fill out all the fields.");
+            }
+        }
+        function redirectToLogin(){
+            window.location.href='login.html';
+        }
+    </script>
+</body>
+</html>

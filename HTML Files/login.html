@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login</title>
+    <link rel="stylesheet" href="../CSS Files/login.css">
+</head>
+<body>
+    <div class="overlay"></div>
+    <div class="bubbles">
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div> 
+</div>
+    <form id="loginForm">
+        <h1>Login</h1>
+        <input type="text" placeholder="Enter Username or Email" name="loginUsername" id="loginUsername" required>
+        <input type="password" placeholder="Enter Password" name="loginPassword" id="loginPassword" required>
+        <input type="button" value="Submit" onclick="login()">
+    </form>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+    <script>
+        function login(){
+            const loginUsername=document.getElementById('loginUsername').value;
+            const loginPassword=document.getElementById('loginPassword').value;
+            if(loginUsername && loginPassword){
+                const users=JSON.parse(localStorage.getItem('users')) || [];
+                const user=users.find(user=>user.username===loginUsername || user.email === loginUsername);
+                if(!user){
+                    alert("No email or username found. Please sign up first.");
+                    return;
+                }
+                const decryptedPassword=CryptoJS.AES.decrypt(user.password,'secret_key').toString(CryptoJS.enc.Utf8);
+                if(decryptedPassword===loginPassword){
+                    alert("Login successful!");
+                    window.location.href='index.html';
+                } 
+                else{
+                    alert("Incorrect password!");
+                }
+            } 
+            else{
+                alert("Please fill out all the fields.");
+            }
+        }
+    </script>
+</body>
+</html>

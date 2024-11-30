@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Present</title>
+    <link rel="stylesheet" href="../CSS Files/present_student.css">
+    <style>
+        .student-block{
+            display: inline-block;
+            width: 200px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            margin: 10px;
+            padding: 10px;
+            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        .student-photo{
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            margin-bottom: 10px;
+            object-fit: cover;
+        }
+        .student-info{
+            text-align: center;
+        }
+        .student-status{
+            color: green;
+            font-weight: bold;
+            text-align: center;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Present Students</h1>
+    <div id="present-students"></div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const className=localStorage.getItem('selectedClass');
+            const attendance=JSON.parse(localStorage.getItem('attendance')) || {};
+            const students=JSON.parse(localStorage.getItem('students')) || {};
+            const presentStudentsContainer=document.getElementById('present-students');
+            if(!className || !attendance[className]){
+                presentStudentsContainer.innerHTML = '<p>No students are marked present for this class.</p>';
+                return;
+            }
+            const presentStudentRollNos=attendance[className];
+            Object.keys(students).forEach(collegeCode=>{
+                students[collegeCode].forEach(student=>{
+                    if (presentStudentRollNos.includes(student.rollNo)){
+                        const studentBlock=document.createElement('div');
+                        studentBlock.className='student-block';
+                        studentBlock.innerHTML=`
+                            <img src="${student.profilePhoto}" alt="Profile Photo" class="student-photo">
+                            <div class="student-info">
+                                <h3>${student.studentName}</h3>
+                                <p>Roll No: ${student.rollNo}</p>
+                            </div>
+                            <span class="student-status">Present ✓</span>
+                        `;
+                        presentStudentsContainer.appendChild(studentBlock);
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

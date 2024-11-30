@@ -1,0 +1,188 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Roboto', Arial, sans-serif;
+    background: linear-gradient(to right, #3b82f6, #9333ea); 
+    color: #333;
+    overflow: auto;
+}
+
+header {
+    background: linear-gradient(135deg, #004d40, #00796b);
+    color: white;
+    padding: 1rem 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.college-logo {
+    font-size: 2rem;
+    font-weight: bold;
+    animation: fadeIn 2s ease-in-out;
+}
+
+main {
+    padding: 2rem;
+}
+
+section {
+    margin-bottom: 2rem;
+    background: linear-gradient(135deg, #ffffff, #e0f7fa);
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+section:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+button {
+    background-color: #00796b;
+    color: white;
+    border: none;
+    padding: 0.7rem 1.5rem;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 1rem;
+    transition: background-color 0.3s, transform 0.3s;
+    animation: pulse 1.5s infinite;
+}
+button:hover {
+    background-color: #004d40;
+    transform: translateY(-2px);
+}
+button:active {
+    transform: scale(0.95);
+}
+
+textarea, input[type="text"], input[type="number"], input[type="time"], input[type="url"] {
+    width: 100%;
+    padding: 0.8rem;
+    margin: 0.5rem 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1rem;
+    background-color: #f9f9f9;
+    transition: border-color 0.3s;
+}
+textarea:focus, input:focus {
+    border-color: #00796b;
+    outline: none;
+    background-color: #fff;
+}
+
+h1, h2, h3, h4 {
+    margin: 0 0 1rem 0;
+    color: #004d40;
+}
+h1 {
+    font-size: 2rem;
+}
+h2 {
+    font-size: 1.8rem;
+}
+h3 {
+    font-size: 1.5rem;
+}
+h4 {
+    font-size: 1.3rem;
+    color: #00796b;
+}
+
+.attendance-block {
+    position: relative;
+    width: 250px;
+    text-align: center;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    margin: 10px;
+    padding: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s, box-shadow 0.3s;
+    background: linear-gradient(135deg, #ffffff, #e0f7fa);
+}
+.attendance-block:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+.attendance-block h3 {
+    margin: 10px 0;
+    color: #004080;
+}
+
+.form-section {
+    margin: 20px 0;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    background: linear-gradient(135deg, #e0f7fa, #b2ebf2); /* Added gradient background */
+    box-shadow: 1px 1px 8px rgba(0, 0, 0, 0.1);
+}
+.form-item {
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 15px;
+    background-color: #f9f9f9;
+    transition: background-color 0.3s, box-shadow 0.3s;
+}
+.form-item:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.problem-category, .problem-item {
+    margin: 10px;
+    padding: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background: linear-gradient(135deg, #f4f4f4, #e0e0e0); 
+    transition: background-color 0.3s, box-shadow 0.3s;
+}
+.problem-category:hover, .problem-item:hover {
+    background: linear-gradient(135deg, #e0f7fa, #b2ebf2); 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+@media(max-width: 768px) {
+    header {
+        flex-direction: column;
+        text-align: center;
+    }
+    .attendance-block {
+        width: 100%;
+    }
+    textarea, input[type="text"], input[type="number"], input[type="time"], input[type="url"] {
+        width: 100%;
+    }
+}

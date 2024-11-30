@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student</title>
+    <link rel="stylesheet" href="../CSS Files/student_section.css">
+    <style>
+        .message-block{margin: 10px; padding: 10px; border: 1px solid #ccc;}
+        .status-present{color: green; }
+        .attendance-block{
+            position: relative;
+            width: 250px;
+            text-align: center;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            margin: 10px;
+            padding: 10px;
+            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+            display: inline-block;
+        }
+        .attendance-block.present{
+            border-color: green;
+        }
+        .attendance-block.present::after{
+            content: "Present";
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background-color: green;
+            color: #fff;
+            padding: 5px;
+            border-radius: 50%;
+        }
+        .attendance-block.absent{
+            border-color: red;
+        }
+        .attendance-block.absent::after{
+            content: "Absent";
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background-color: red;
+            color: #fff;
+            padding: 5px;
+            border-radius: 50%;
+        }
+        .attendance-block img{
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .attendance-block .student-info{
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            color: #fff;
+            padding: 5px;
+            font-size: 12px;
+        }
+        .attendance-block.present .student-info{
+            background-color: rgba(0, 128, 0, 0.5);
+        }
+        .attendance-block.absent .student-info{
+            background-color: rgba(255, 0, 0, 0.5);
+        }
+        #qr-reader{
+            width: 300px;
+            height: 300px;
+            margin: 20px auto;
+            display: none;
+        }
+        #form-section{
+            margin: 20px;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            background-color: #f9f9f9;
+        }
+        .form-item{
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 10px;
+            background-color: #fff;
+        }
+        .problem-category{
+            margin: 10px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #f4f4f4;
+        }
+        .problem-item{
+            margin: 5px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            background-color: #fff;
+        }
+    </style>
+</head>
+<body>
+    <div id="college-details-container">
+        <img src="college-logo.jpg" alt="College Logo" class="college-logo">
+        <h1 class="college-name">College Name Here</h1>
+        <p class="college-code">Code: 12345</p>
+        <p class="college-address">123 College Street, City, Country</p>
+        <img src="profile-photo.jpg" alt="Profile Photo" class="profile-photo">
+    </div>
+    <div id="attendance-list" class="attendance-section">
+        <h2>Attendance</h2>
+    </div>
+    <div id="student-section">
+        <div id="message-section">
+        </div>
+    </div>
+    <div id="problem-section">
+        <h2>Problems Section</h2>
+        <div id="general-problem"></div>
+        <div id="personal-problem"></div>
+    </div>
+    <div id="form-section">
+        <h2>Google Form Integration</h2>
+        <div id="form-list">
+        </div>
+    </div>
+    <div id="problem-section">
+        <h2>Problems Section</h2>
+        <div id="general-problem" class="problem-category">
+            <h3>General Problems</h3>
+            <div id="campus-problem">
+                <h4>Campus Issues</h4>
+                <textarea placeholder="Post a campus problem..."></textarea>
+                <button onclick="postProblem('campus')">Post Problem</button>
+                <div id="campus-issues"></div>
+            </div>
+            <div id="hostel-problem">
+                <h4>Hostel Issues</h4>
+                <textarea placeholder="Post a hostel problem..."></textarea>
+                <button onclick="postProblem('hostel')">Post Problem</button>
+                <div id="hostel-issues"></div>
+            </div>
+        </div>
+        <div id="personal-problem" class="problem-category">
+            <h3>Personal Problems</h3>
+            <textarea placeholder="Post a personal problem..."></textarea>
+            <button onclick="postProblem('personal')">Post Problem</button>
+            <div id="personal-issues"></div>
+        </div>
+    </div>
+
+    <div id="message-section">
+    </div>
+
+    <script>
+    document.addEventListener('DOMContentLoaded',function(){
+        loadGoogleFormSections();
+        loadProblemSections();
+    });
+    function loadGoogleFormSections(){
+        const formSections=['rating','doubt','important','urgent','club-president'];
+        const formList=document.getElementById('form-list');
+        formSections.forEach(section=>{
+            const formDiv=document.createElement('div');
+            formDiv.className='form-item';
+            formDiv.id=`${section}-section`;
+            formDiv.innerHTML=`
+                <h3>${section.charAt(0).toUpperCase() + section.slice(1)} Messages</h3>
+                <textarea placeholder="Type your ${section} message..."></textarea>
+                <input type="text" placeholder="Add link (required)">
+                <button onclick="sendGoogleFormMessage('${section}')">Send</button>
+            `;
+            formList.appendChild(formDiv);
+        });
+    }
+    function sendGoogleFormMessage(section){
+        const textarea=document.querySelector(`#${section}-section textarea`);
+        const linkInput=document.querySelector(`#${section}-section input`);
+        const message=textarea.value.trim();
+        const link=linkInput.value.trim();
+        if(!message || !link){
+            alert('Message and link are required');
+            return;
+        }
+        const messages=JSON.parse(localStorage.getItem('messages')) || {};
+        if(!messages[section]) messages[section]=[];
+        messages[section].push({message,link,timestamp:Date.now()});
+        localStorage.setItem('messages',JSON.stringify(messages));
+        textarea.value='';
+        linkInput.value='';
+        displayMessages();
+    }
+    function loadProblemSections(){
+        const problems=JSON.parse(localStorage.getItem('problems')) || {};
+        ['campus','hostel','personal'].forEach(type=>{
+            const problemDiv=document.getElementById(`${type}-issues`);
+            problemDiv.innerHTML=(problems[type] || []).map((problem,index)=> `
+                <div class="problem-item">
+                    <p>${problem.message}</p>
+                    <p>Votes: ${problem.votes}</p>
+                    ${
+                        type!=='personal'
+                            ? `<button onclick="voteProblem('${type}', ${index})">Vote</button>`
+                            : ''
+                    }
+                </div>`).join('');
+        });
+    }
+    function postProblem(type){
+        const textarea=document.querySelector(`#${type}-problem textarea`);
+        const message=textarea.value.trim();
+        if(!message){
+            alert('Problem description cannot be empty');
+            return;
+        }
+        const problems=JSON.parse(localStorage.getItem('problems')) || {};
+        if(!problems[type]) problems[type] = [];
+        problems[type].push({message,votes:0});
+        localStorage.setItem('problems', JSON.stringify(problems));
+        textarea.value='';
+        loadProblemSections();
+    }
+    function voteProblem(type,index){
+        if(type==='personal') return;
+        const problems=JSON.parse(localStorage.getItem('problems')) || {};
+        problems[type][index].votes++;
+        localStorage.setItem('problems', JSON.stringify(problems));
+        loadProblemSections();
+    }
+</script>
+    <div id="qr-reader" style="display:none;"></div>
+    <script src="https://unpkg.com/html5-qrcode/minified/html5-qrcode.min.js"></script>
+    <script src="../JS Files/student_section.js"></script>
+</body>
+</html>

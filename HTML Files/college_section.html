@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>College Page</title>
+    <link rel="stylesheet" href="../CSS Files/college_section.css">
+    <style>
+        .message-section{margin: 10px; padding: 10px; }
+        .problem-section{margin: 20px 0; display: flex; }
+        .problem-category{ flex: 1; margin: 5px; }
+        .problem-item{ background: #f4f4f4; padding: 10px; margin: 5px; border: 1px solid #ddd; }
+        .attendance-block{
+            position: relative;
+            width: 250px;
+            text-align: center;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            margin: 10px;
+            padding: 10px;
+            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+            display: inline-block;
+        }
+        .present-btn{
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            padding: 5px 10px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .present-btn:hover{
+            background-color: #218838;
+        }
+        .college-container{
+            text-align: center;
+            margin: 20px;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        .college-logo{
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 10px;
+        }
+        .attendance-section{
+            margin: 20px;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        .class-block{
+            margin: 15px 0;
+            padding: 10px;
+            border: 1px solid #aaa;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+        .countdown-timer{
+            font-weight: bold;
+            color: red;
+        }
+        .qr-code{
+            margin: 10px 0;
+        }
+        .form-section{
+            margin: 20px 0;
+            padding: 15px;
+            border: 1px solid #aaa;
+            border-radius: 10px;
+            background-color: #e8f5e9;
+            box-shadow: 1px 1px 8px rgba(0, 0, 0, 0.1);
+        }
+        .form-section h3{
+            font-size: 1.2em;
+            color: #333;
+        }
+        .form-list{
+            margin-top: 10px;
+            padding: 10px;
+            background: #fff;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .form-item{
+            margin-bottom: 10px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #fdfdfd;
+        }
+        .student-post-controls{
+            margin: 15px 0;
+        }
+        .student-post-controls textarea,
+        .student-post-controls input{
+            width: calc(50% - 10px);
+            margin: 5px;
+            padding: 8px;
+            border: 1px solid #aaa;
+            border-radius: 5px;
+        }
+        .student-post-controls button{
+            padding: 10px 15px;
+            background-color: #0288d1;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .student-post-controls button:hover{
+            background-color: #0277bd;
+        }
+        .countdown-timer{
+            font-weight: bold;
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <div id="college-section"></div>
+    <button onclick="checkStudentDetails('COLLEGE NAME')">Check Student Details</button>
+    <div id="attendance-section" class="attendance-section">
+        <h2>Attendance System</h2>
+        <div id="class-list"></div>
+        <button onclick="addClass()">Add New Class</button>
+    </div>
+    <div id="form-section" class="form-section">
+        <h3>Google Form Integration</h3>
+        <div id="form-list" class="form-list"></div>
+        <button onclick="addForm()">Add Google Form</button>
+    </div>
+    <div id="message-section">
+    </div>
+
+    <div id="problem-section">
+        <h2>Problems Section</h2>
+        <div id="general-problem" class="problem-category"></div>
+        <div id="personal-problem" class="problem-category"></div>
+    </div>
+    <button onclick="deleteProblem('general', 0)">Problem Solved</button>
+    <script>
+        document.addEventListener('DOMContentLoaded',function () {
+            displayAllProblems();
+        });
+        function displayAllProblems() {
+            const problems=JSON.parse(localStorage.getItem('problems')) || {};
+            const generalProblemsDiv=document.getElementById('general-problem');
+            const personalProblemsDiv=document.getElementById('personal-problem');
+            generalProblemsDiv.innerHTML='<h3>General Problems</h3>';
+            ['campus','hostel'].forEach((category)=>{
+                const categoryProblems=problems[category] || [];
+                const categoryDiv=document.createElement('div');
+                categoryDiv.innerHTML=`<h4>${category.charAt(0).toUpperCase() + category.slice(1)} Issues</h4>`;
+                categoryProblems.forEach((problem, index)=>{
+                    const problemDiv=document.createElement('div');
+                    problemDiv.className='problem-item';
+                    problemDiv.innerHTML=`
+                        <p>${problem.message}</p>
+                        <p>Votes: ${problem.votes}</p>
+                        <button onclick="markSolved('${category}', ${index})">Mark as Solved</button>
+                    `;
+                    categoryDiv.appendChild(problemDiv);
+                });
+                generalProblemsDiv.appendChild(categoryDiv);
+            });
+            personalProblemsDiv.innerHTML='<h3>Personal Problems</h3>';
+            const personalCategoryProblems=problems['personal'] || [];
+            personalCategoryProblems.forEach((problem,index)=>{
+                const problemDiv=document.createElement('div');
+                problemDiv.className='problem-item';
+                problemDiv.innerHTML=`
+                    <p>${problem.message}</p>
+                    <button onclick="markSolved('personal', ${index})">Mark as Solved</button>
+                `;
+                personalProblemsDiv.appendChild(problemDiv);
+            });
+        }
+        function markSolved(type,index) {
+            const problems=JSON.parse(localStorage.getItem('problems')) || {};
+            if(!problems[type] || !problems[type][index]){
+                alert('Problem not found!');
+                return;
+            }
+            problems[type].splice(index, 1);
+            localStorage.setItem('problems', JSON.stringify(problems));
+            alert('Problem marked as solved!');
+            displayAllProblems();
+        }
+    </script>
+    <script src="../JS Files/college_section.js"></script>
+    <script src="../JS Files/attendance_system.js"></script>
+    <script src="../JS Files/google_form.js"></script>
+    <script src="../JS Files/problem_student.js"></script>
+</body>
+</html>
