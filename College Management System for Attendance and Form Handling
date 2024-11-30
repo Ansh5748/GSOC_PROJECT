@@ -1,0 +1,97 @@
+Project Name:
+College Management System for Attendance and Form Handling
+
+Objective:
+A streamlined, secure, and user-friendly College Management System to prevent attendance proxy, ensure efficient form distribution, and provide a robust problem-reporting system.
+
+Key Features:
+1. Attendance Management System
+QR Code-Based Attendance:
+A unique QR code is generated at the start of each class.
+Students must scan the QR code to mark their attendance.
+Attendance can only be marked by scanning the code within the first 10-15 seconds of the class.
+Ensures students are present in the classroom and prevents proxies.
+
+2. Google Form Integration
+Centralized Form Management:
+Forms are categorized for ease of access:
+Class Review: For rating classes.
+Important Section: Includes critical forms (e.g., Hackathon or Entrepreneurship events).
+Urgent Section: Forms that need immediate attention (e.g., forms with a 10-15 minute deadline).
+Club President Forms: For approved students who are club presidents to post forms.
+
+Features for Form Posting:
+Admins can:
+Set form expiration times.
+Students can:
+Post forms only if they include a valid link.
+
+3. Problem Reporting System
+General Problems:
+Subdivided into two categories:
+Campus Issues (e.g., parking problems, facilities).
+Hostel Issues (e.g., food quality, WiFi issues).
+Voting System:
+Students can vote for existing problems instead of posting duplicates.
+Problems are sorted by vote count to prioritize critical issues.
+Admin Actions:
+Admins can delete duplicate or resolved problems.
+Problems marked as solved display a "Problem Solved" status.
+Personal Problems:
+Private problem reporting for sensitive issues (e.g., ragging, harassment).
+Privacy Features:
+Problems are visible only to authorized personnel.
+Student anonymity is maintained.
+
+
+How to Use the System:
+For Colleges (Admins):
+Sign Up and Create a College Section:
+Add the college name, address, logo, and unique code.
+Add Students:
+Approve student accounts and assign them to the college section.
+Post Forms:
+Use the Google Form Integration to post important forms.
+Set expiration times and manage form sections.
+For Students:
+Sign Up and Join College:
+Sign up and join a college by entering the unique college code.
+Mark Attendance:
+Scan the QR code at the start of class to mark attendance.
+Access Google Forms:
+Navigate to the relevant sections to access forms.
+Report Problems:
+Post issues under the general or personal problem categories.
+Vote for existing problems instead of posting duplicates.
+
+
+Programming Languages and Tools Used:
+Frontend:
+HTML5: For structuring the webpages.
+CSS3: For responsive and visually appealing designs.
+JavaScript: For dynamic interactions, QR code generation, and form handling.
+Libraries and APIs:
+Html5Qrcode Library: For QR code scanning and generation.
+Browser localStorage: For data persistence (e.g., storing attendance, forms, and problems).
+
+
+Advantages of the System:
+Prevents Proxy Attendance:
+QR code-based system ensures physical presence in class.
+Efficient Form Handling:
+Categorized forms reduce clutter and ensure students don’t miss critical forms.
+Enhanced Problem Management:
+Voting and anonymity features streamline problem-solving and build trust.
+User-Friendly Interface:
+Responsive design for accessibility across devices.
+Customizable Settings for Admins:
+Flexibility in managing forms and problem resolution.
+
+
+Future Enhancements:
+Integration with cloud databases for large-scale deployment.
+Mobile App Development for enhanced user experience.
+Advanced analytics dashboard for attendance and problem statistics.
+
+License:
+This project is licensed under the MIT License.
