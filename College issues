@@ -1,0 +1,53 @@
+# GSOC_PROJECT# College Management System
+
+A comprehensive **College Management System** designed to manage college-related tasks effectively. This project includes functionalities like student attendance tracking, problem reporting, Google Form integration, and more. 
+
+## Features
+
+### College Creation and Joining
+- **Create College:** 
+  - Add a new college with name, address, logo, and unique code.
+- **Join College:** 
+  - Students can join existing colleges using the college code and upload their profile photo.
+
+### Attendance Management
+- **Attendance System:**
+  - Mark attendance using a QR scanner.
+  - View present and absent students in a class.
+- **Attendance Status:**
+  - Display attendance status dynamically (Present or Absent) for students.
+
+### Problem Reporting System
+- **General Problems:**
+  - Report campus or hostel issues.
+  - Students can vote for general problems.
+- **Personal Problems:**
+  - Report personal problems (private, no voting allowed).
+
+### Messaging System
+- **Google Form Integration:**
+  - Send messages categorized under **Rating**, **Doubt**, **Important**, **Urgent**, or **Club President Messages**.
+  - Attach links to messages and manage timers for message expiration.
+- **Club President Features:**
+  - Club president can send special messages visible to all students.
+
+### Student and Club President Management
+- **View Student Details:**
+  - Display a list of all students in a college.
+- **Club President Selection:**
+  - Assign a student as a club president.
+  - Highlight the club president in the student list.
+
+### Visual Enhancements
+- Modern and user-friendly UI with responsive design.
+- Circular profile photos and college logos for better visual representation.
+
+## Technologies Used
+- **Frontend:**
+  - HTML5, CSS3, JavaScript.
+- **Backend:**
+  - Browser `localStorage` for data persistence.
+- **Libraries:**
+  - [Html5Qrcode](https://github.com/mebjas/html5-qrcode) for QR code scanning.
+
+## Project Structure
